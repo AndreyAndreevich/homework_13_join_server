@@ -1,0 +1,36 @@
+cmake_minimum_required(VERSION 3.2)
+
+set(SERVER ${PROJECT_NAME})
+
+include_directories(
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${Boost_INCLUDE_DIR}
+        )
+
+set(HEADERS 
+        Parser.h
+        Storage.h
+        Session.h
+        Server.h
+        )
+
+set(SOURCES
+        Parser.cpp
+        Storage.cpp
+        Session.cpp
+        Server.cpp
+        )
+        
+add_executable(${SERVER} main.cpp ${HEADERS} ${SOURCES})
+set_target_properties(${SERVER} PROPERTIES
+        CXX_STANDARD_REQUIRED ON
+        COMPILE_OPTIONS -Wpedantic -Wall -Wextra
+        )
+
+target_link_libraries(${SERVER}
+        ${Boost_LIBRARIES}
+        ${CMAKE_THREAD_LIBS_INIT}
+        ${ASYNC_LIB}
+        )
+
+install(TARGETS ${SERVER} RUNTIME DESTINATION bin)

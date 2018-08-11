@@ -1,0 +1,25 @@
+cmake_minimum_required(VERSION 3.2)
+
+if($ENV{TRAVIS_BUILD_NUMBER})
+        project(join_server VERSION 0.0.$ENV{TRAVIS_BUILD_NUMBER})
+else()
+        project(join_server VERSION 0.0.1)  
+endif()
+
+find_package(Boost COMPONENTS system unit_test_framework REQUIRED)
+find_package(Threads REQUIRED QUIET)
+
+set(CMAKE_CXX_STANDARD 14)
+
+add_subdirectory(src)
+
+enable_testing()
+add_subdirectory(tests)
+
+set(CPACK_GENERATOR DEB)
+set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
+set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
+set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
+set(CPACK_PACKAGE_CONTACT l.a.r.p@yandex.ru)
+
+include(CPack)
